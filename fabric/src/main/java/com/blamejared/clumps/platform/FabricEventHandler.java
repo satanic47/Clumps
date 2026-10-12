@@ -11,11 +11,15 @@ import net.minecraft.world.entity.player.Player;
 
 public class FabricEventHandler implements IEventHelper {
     
+    private boolean isFabricApiLoaded() {
+        return FabricLoader.getInstance().isModLoaded("fabric") || FabricLoader.getInstance().isModLoaded("fabric-api");
+    }
+    
     @Override
     public Either<IValueEvent, Integer> fireValueEvent(Player player, int value) {
         
         ValueEvent event = new ValueEvent(player, value);
-        if(FabricLoader.getInstance().isModLoaded("fabric")) {
+        if(isFabricApiLoaded()) {
             ClumpsEvents.VALUE_EVENT.invoker().handle(event);
         }
         
@@ -26,7 +30,7 @@ public class FabricEventHandler implements IEventHelper {
     public Either<IRepairEvent, Integer> fireRepairEvent(Player player, int value) {
         
         RepairEvent event = new RepairEvent(player, value);
-        if(FabricLoader.getInstance().isModLoaded("fabric")) {
+        if(isFabricApiLoaded()) {
             ClumpsEvents.REPAIR_EVENT.invoker().handle(event);
         }
         
